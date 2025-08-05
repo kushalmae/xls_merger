@@ -1,0 +1,9 @@
+FDIR,ID,Monitor,Threshold,Condition,Count,Response
+Star,fpu_star,star_mon_1,x = 1,(star_mon_1  | star_mon_2),10.0,star_response1.test
+Star,fpu_star,star_mon_2,x >1,(star_mon_2 & star_mon_1),10.0,star_response2.test
+Star,fpu_star,star_mon_3,x =45,,,
+Star,fpu_star,star_mon_4,x != 67,,,
+Star,fpu_star,star_mon_5,x = 45,,,
+Sun,fpu_sun,sun_mon_1,x = 100,sun_cond_1,50.0,sun_response.test
+Sun,fpu_sun,sun_mon_2,x >100,,,
+Battery,fpu_batt,,,,,

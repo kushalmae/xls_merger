@@ -273,15 +273,93 @@ def create_clean_lookup_table():
         return False
 
 
+def read_data_xlsx():
+    """
+    Function to read and display data from data.xlsx
+    """
+    input_file = "inputs/data.xlsx"
+    
+    log_message("=== Data.xlsx Reader ===")
+    
+    # Check if input file exists
+    if not os.path.exists(input_file):
+        log_message(f"ERROR: Input file '{input_file}' not found!")
+        return None
+    
+    try:
+        # Read the Excel file
+        log_message(f"Reading {input_file}...")
+        df = pd.read_excel(input_file)
+        
+        log_message(f"Loaded {len(df)} rows with columns: {list(df.columns)}")
+        
+        # Display the contents
+        log_message("\nData contents:")
+        log_message("-" * 40)
+        for index, row in df.iterrows():
+            log_message(f"Row {index + 1}: {row['FDIRs']} -> {row['id']}")
+        
+        # Create a dictionary mapping
+        data_dict = dict(zip(df['FDIRs'], df['id']))
+        
+        log_message("\nAs dictionary:")
+        log_message("-" * 40)
+        for fdir, id_val in data_dict.items():
+            log_message(f"'{fdir}': '{id_val}'")
+        
+        return df, data_dict
+        
+    except Exception as e:
+        log_message(f"ERROR: Failed to read file: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
 def main():
     """Main entry point"""
-    success = create_clean_lookup_table()
     
-    if success:
-        log_message("\n🎉 Lookup table generation completed successfully!")
+    # Ask user which function to run
+    print("\nChoose an option:")
+    print("1. Process response_text.xlsx (original functionality)")
+    print("2. Read data.xlsx")
+    print("3. Both")
+    
+    choice = input("\nEnter your choice (1/2/3): ").strip()
+    
+    if choice == "1":
+        success = create_clean_lookup_table()
+        if success:
+            log_message("\n🎉 Response lookup table generation completed successfully!")
+        else:
+            log_message("\n❌ Response lookup table generation failed!")
+            exit(1)
+            
+    elif choice == "2":
+        result = read_data_xlsx()
+        if result:
+            log_message("\n🎉 Data.xlsx reading completed successfully!")
+        else:
+            log_message("\n❌ Data.xlsx reading failed!")
+            exit(1)
+            
+    elif choice == "3":
+        log_message("\n=== Processing both files ===")
         
+        # First read data.xlsx
+        data_result = read_data_xlsx()
+        
+        log_message("\n" + "="*60)
+        
+        # Then process response_text.xlsx
+        response_success = create_clean_lookup_table()
+        
+        if data_result and response_success:
+            log_message("\n🎉 Both files processed successfully!")
+        else:
+            log_message("\n❌ One or both processes failed!")
+            exit(1)
     else:
-        log_message("\n❌ Lookup table generation failed!")
+        log_message("Invalid choice. Exiting.")
         exit(1)
 
 if __name__ == "__main__":

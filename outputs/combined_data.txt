@@ -1,0 +1,35 @@
+HOLISTIC VIEW - ALL FDIRS
+============================================================
+
+STAR (ID: fpu_star)
+--------------------------------------------------
+MONITORS:
+  • star_mon_1: x = 1
+  • star_mon_2: x >1
+  • star_mon_3: x =45
+  • star_mon_4: x != 67
+  • star_mon_5: x = 45
+
+CONDITIONS:
+  • (star_mon_1  | star_mon_2)
+    Count: 10.0, Response: star_response1.test
+  • (star_mon_2 & star_mon_1)
+    Count: 10.0, Response: star_response2.test
+
+SUN (ID: fpu_sun)
+--------------------------------------------------
+MONITORS:
+  • sun_mon_1: x = 100
+  • sun_mon_2: x >100
+
+CONDITIONS:
+  • sun_cond_1
+    Count: 50.0, Response: sun_response.test
+
+BATTERY (ID: fpu_batt)
+--------------------------------------------------
+MONITORS:
+  (No monitors)
+
+CONDITIONS:
+  (No conditions)

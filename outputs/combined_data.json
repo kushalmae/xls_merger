@@ -1,0 +1,64 @@
+{
+  "Star": {
+    "id": "fpu_star",
+    "monitors": [
+      {
+        "monitor": "star_mon_1",
+        "threshold": "x = 1"
+      },
+      {
+        "monitor": "star_mon_2",
+        "threshold": "x >1"
+      },
+      {
+        "monitor": "star_mon_3",
+        "threshold": "x =45"
+      },
+      {
+        "monitor": "star_mon_4",
+        "threshold": "x != 67"
+      },
+      {
+        "monitor": "star_mon_5",
+        "threshold": "x = 45"
+      }
+    ],
+    "conditions": [
+      {
+        "condition": "(star_mon_1  | star_mon_2)",
+        "count": 10.0,
+        "response": "star_response1.test"
+      },
+      {
+        "condition": "(star_mon_2 & star_mon_1)",
+        "count": 10.0,
+        "response": "star_response2.test"
+      }
+    ]
+  },
+  "Sun": {
+    "id": "fpu_sun",
+    "monitors": [
+      {
+        "monitor": "sun_mon_1",
+        "threshold": "x = 100"
+      },
+      {
+        "monitor": "sun_mon_2",
+        "threshold": "x >100"
+      }
+    ],
+    "conditions": [
+      {
+        "condition": "sun_cond_1",
+        "count": 50.0,
+        "response": "sun_response.test"
+      }
+    ]
+  },
+  "Battery": {
+    "id": "fpu_batt",
+    "monitors": [],
+    "conditions": []
+  }
+}
