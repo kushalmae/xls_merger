@@ -1,0 +1,15 @@
+id,mons,recovery_text,response,response_text,counts
+fpu_star,(star_mon_1  | star_mon_2),"star1_step1
+star2_step2
+star3_step3",star_response1.test,BOOO,10
+,(star_mon_2 & star_mon_1),,,,10
+,star_mon_3,,,,10
+,star_mon_4,"star2_step1
+star2_step2",star_response2.test,star_response2.text,10
+,star_mon_5,,,,10
+fpu_sun,sun_mon_1,,sun_response.test,sun_response.text,50
+,sun_mon_2,data_,,,50
+fpu_bat,bat_mon_4,bat_response1.step1,bat_response1.test,bat_response1.text,500
+,bat_mon_5,bat_response2.step1,bat_response2.test,bat_response2.text,500
+,bat_mon_1,bat_response1.step1,bat_response1.test,bat_response1.text,500
+fpu_tracker,tracker_mon_2,star_response.step3,star_response.test,star_response.text,1000
