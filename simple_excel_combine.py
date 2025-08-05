@@ -64,8 +64,10 @@ def create_simple_combined_excel():
             }
             combined_rows.append(row)
     
-    # Create DataFrame
+    # Create DataFrame and sort by FDIR for better merging
     df = pd.DataFrame(combined_rows)
+    df = df.sort_values(['FDIRs', 'id'], na_position='last').reset_index(drop=True)
+    print(f"✅ Sorted data by FDIR for cell merging")
     
     # Load response lookup table and merge
     print("Loading response lookup table...")
@@ -78,14 +80,14 @@ def create_simple_combined_excel():
         
         # Reorder columns to keep original format + response data
         column_order = ['FDIRs', 'id', 'mons', 'thresholds', 'condition_mons', 'counts', 'response', 'response_text', 'recovery_steps']
-        df_merged = df_merged[column_order]
+        df_merged = df_merged[column_order].reset_index(drop=True)
         
         print(f"✅ Merged response lookup data successfully")
         
     except Exception as e:
         print(f"⚠️  Could not load response lookup table: {e}")
         print("Continuing without response lookup data...")
-        df_merged = df
+        df_merged = df.reset_index(drop=True)
     
     # Save to Excel with proper newline formatting
     import os
@@ -150,7 +152,37 @@ def create_simple_combined_excel():
         if 'I' in [cell.column_letter for cell in worksheet[1]]:  # recovery_steps column  
             worksheet.column_dimensions['I'].width = 50
         
-        print(f"✅ Applied Excel formatting for proper newline display")
+        # Merge cells in column A (FDIRs) for same values
+        print("Merging duplicate FDIR cells in column A...")
+        current_fdir = None
+        start_row = 2  # Start from row 2 (after header)
+        
+        for row_num in range(2, len(df_merged) + 2):  # +2 because Excel is 1-indexed and we have header
+            cell_value = worksheet[f'A{row_num}'].value
+            
+            if cell_value != current_fdir:
+                # If we were tracking a group, merge it
+                if current_fdir is not None and row_num > start_row:
+                    end_row = row_num - 1
+                    if end_row > start_row:  # Only merge if more than 1 cell
+                        worksheet.merge_cells(f'A{start_row}:A{end_row}')
+                        # Center the merged cell content
+                        merged_cell = worksheet[f'A{start_row}']
+                        merged_cell.alignment = Alignment(wrap_text=True, vertical='center', horizontal='center')
+                
+                # Start new group
+                current_fdir = cell_value
+                start_row = row_num
+        
+        # Handle the last group
+        if current_fdir is not None and len(df_merged) + 1 > start_row:
+            end_row = len(df_merged) + 1
+            if end_row > start_row:
+                worksheet.merge_cells(f'A{start_row}:A{end_row}')
+                merged_cell = worksheet[f'A{start_row}']
+                merged_cell.alignment = Alignment(wrap_text=True, vertical='center', horizontal='center')
+        
+        print(f"✅ Applied Excel formatting with merged FDIR cells")
     
     print(f"✅ Created: {output_file}")
     print(f"📊 {len(df_merged)} rows with original columns + response lookup data")
