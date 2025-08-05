@@ -1,0 +1,42 @@
+{
+  "star_response1.test": {
+    "response_text_lines": [
+      "star_response1.text",
+      "level2",
+      "level3"
+    ],
+    "recovery_steps": [
+      "star1_step1",
+      "star2_step2",
+      "star3_step3"
+    ]
+  },
+  "star_response2.test": {
+    "response_text": "star_response2.text",
+    "recovery_steps": [
+      "star2_step1",
+      "star2_step2"
+    ]
+  },
+  "sun_response.test": {
+    "response_text": "sun_response.text"
+  },
+  "bat_response1.test": {
+    "response_text": "bat_response1.text",
+    "recovery_steps": [
+      "bat_response1.step1"
+    ]
+  },
+  "bat_response2.test": {
+    "response_text": "bat_response2.text",
+    "recovery_steps": [
+      "bat_response2.step1"
+    ]
+  },
+  "star_response.test": {
+    "response_text": "star_response.text",
+    "recovery_steps": [
+      "star_response.step3"
+    ]
+  }
+}
